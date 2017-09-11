@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react'; // works with components
 import ReactDOM from 'react-dom' // used when needing to render something DOM
 import YTSearch from 'youtube-api-search'
@@ -18,7 +19,11 @@ class App extends Component {
       selectedVideo: null
     }
 
-    YTSearch({ key: API_KEY, term: 'chillhop' }, (videos) => {
+    this.videoSearch('chillhop')
+  }
+
+  videoSearch(term) {
+    YTSearch({ key: API_KEY, term: term }, (videos) => {
       this.setState({
       videos: videos,
       selectedVideo: videos[0]
@@ -28,11 +33,15 @@ class App extends Component {
   }
 
   render(){
+    const videoSearch = _.debounce((term) => { this.videoSearch(term) }, 500)
+
     return (
       <div>
-        <SearchBar />
+        <SearchBar onSearchTermChange={videoSearch}/>
         <VideoDetail video={this.state.selectedVideo}/>
-        <VideoList videos={this.state.videos} />
+        <VideoList
+          onVideoSelect={ selectedVideo => this.setState({selectedVideo} ) }
+          videos={this.state.videos} />
       </div>
   )}
 }

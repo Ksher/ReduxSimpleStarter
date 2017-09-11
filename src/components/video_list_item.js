@@ -1,10 +1,10 @@
 import React from 'react'
 
-const VideoListItem = ({video}) => { // variable 'video' that = just the video prop of the larger video object, which we'll be mapping through and running the functional component on
+const VideoListItem = ({video, onVideoSelect}) => { // variable 'video' that = just the video prop of the larger video object, which we'll be mapping through and running the functional component on
   const imageURL = video.snippet.thumbnails.default.url
 
   return (
-  <li className='list-group-item'>
+  <li onClick={() => onVideoSelect(video)} className='list-group-item'>
     <div className='video-list media'>
       <div className = 'media-left'>
         <img className='media-object' src={imageURL}/>
