@@ -4,6 +4,7 @@ import YTSearch from 'youtube-api-search'
 
 import SearchBar from './components/Search_Bar'
 import VideoList from './components/video_list'
+import VideoDetail from './components/video_detail'
 
 const API_KEY = 'AIzaSyDk96fjRPzZ4Ugidy0kmF8Ub0drHSbiOyw';
 
@@ -12,10 +13,16 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { videos: [] }
+    this.state = {
+      videos: [],
+      selectedVideo: null
+    }
 
     YTSearch({ key: API_KEY, term: 'chillhop' }, (videos) => {
-      this.setState({ videos })
+      this.setState({
+      videos: videos,
+      selectedVideo: videos[0]
+    })
       // resolves as this.setState ({ videos: videos }) --> sets key and value to same value
     })
   }
@@ -24,6 +31,7 @@ class App extends Component {
     return (
       <div>
         <SearchBar />
+        <VideoDetail video={this.state.selectedVideo}/>
         <VideoList videos={this.state.videos} />
       </div>
   )}
